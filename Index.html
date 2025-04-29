@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daten-Tabelle</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <label for="yearSelect">Jahr auswählen:</label>
+    <select id="yearSelect" onchange="loadYear()">
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <!-- Weitere Jahre hier hinzufügen, z. B. <option value="2025">2025</option> -->
+    </select>
+    <table id="dataTable" class="display"></table>
+    <script>
+        let table; // Globale Variable für die DataTable
+
+        // Initiale Tabelle laden (z. B. 2023)
+        $(document).ready(function() {
+            table = $('#dataTable').DataTable({
+                ajax: 'Indie_2018.csv', // Start mit 2023
+                columns: [
+                    { title: 'Datum' },
+                    { title: 'Spalte1' },
+                    { title: 'Spalte2' },
+                    { title: 'Spalte3' },
+                    { title: 'Spalte4' },
+                    { title: 'Spalte5' },
+                    { title: 'Spalte6' },
+                    { title: 'Spalte7' },
+                    { title: 'Spalte8' },
+                    { title: 'Spalte9' },
+                    { title: 'Spalte10' },
+                    { title: 'Spalte11' },
+                    { title: 'Spalte12' },
+                    { title: 'Spalte13' },
+                    { title: 'Spalte14' }
+                ]
+            });
+        });
+
+        // Funktion zum Laden eines neuen Jahres
+        function loadYear() {
+            const selectedYear = document.getElementById('yearSelect').value;
+            const csvFile = `data_${selectedYear}.csv`; // Dynamischer Dateiname
+
+            // Tabelle leeren und neue Daten laden
+            table.clear().draw();
+            table.ajax.url(csvFile).load();
+        }
+    </script>
+</body>
+</html>
