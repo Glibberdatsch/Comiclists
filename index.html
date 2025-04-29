@@ -20,7 +20,7 @@
         // Initiale Tabelle laden (z. B. 2023)
         $(document).ready(function() {
             table = $('#dataTable').DataTable({
-                ajax: 'Indie_2018.csv', // Start mit 2018
+                ajax: 'Indie_2018.json', // Start mit 2018
                 columns: [
                     { title: 'Publisher' },
                     { title: 'Title' },
@@ -44,11 +44,11 @@
         // Funktion zum Laden eines neuen Jahres
         function loadYear() {
             const selectedYear = document.getElementById('yearSelect').value;
-            const csvFile = `Indie_${selectedYear}.csv`; // Dynamischer Dateiname
+            const jsonFile = `Indie_${selectedYear}.json`; // Dynamischer Dateiname
 
             // Tabelle leeren und neue Daten laden
             table.clear().draw();
-            table.ajax.url(csvFile).load();
+            table.ajax.url(jsonFile).load();
         }
     </script>
 </body>
