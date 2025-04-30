@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daten-Tabelle</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <label for="yearSelect">Jahr auswählen:</label>
+    <select id="yearSelect" onchange="loadYear()">
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <!-- Weitere Jahre hier hinzufügen, z. B. <option value="2025">2025</option> -->
+    </select>
+    <table id="dataTable" class="display"></table>
+    <script>
+        let table; // Globale Variable für die DataTable
+
+        // Initiale Tabelle laden (z. B. 2023)
+        $(document).ready(function() {
+            table = $('#dataTable').DataTable({
+                ajax: 'Indie_2018.csv', // Start mit 2018
+                columns: [
+                    { title: 'Publisher' },
+                    { title: 'Title' },
+                    { title: 'Jan' },
+                    { title: 'Feb' },
+                    { title: 'Mar' },
+                    { title: 'Apr' },
+                    { title: 'May' },
+                    { title: 'June' },
+                    { title: 'July' },
+                    { title: 'Aug' },
+                    { title: 'Sep' },
+                    { title: 'Oct' },
+                    { title: 'Nov' },
+                    { title: 'Dec' },
+                    { title: 'Comment' }
+                ]
+            });
+        });
+
+        // Funktion zum Laden eines neuen Jahres
+        function loadYear() {
+            const selectedYear = document.getElementById('yearSelect').value;
+            const csvFile = `Indie_${selectedYear}.csv`; // Dynamischer Dateiname
+
+            // Tabelle leeren und neue Daten laden
+            table.clear().draw();
+            table.ajax.url(csvFile).load();
+        }
+    </script>
+</body>
+</html>
