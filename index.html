@@ -5,40 +5,42 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
-    <label for="yearSelect">Jahr auswÃ¤hlen:</label>
+    <label for="yearSelect">Jahr auswählen:</label>
     <select id="yearSelect" onchange="loadYear()">
         <option value="2018">2018</option>
         <option value="2019">2019</option>
-        <!-- Weitere Jahre hier hinzufÃ¼gen, z. B. <option value="2025">2025</option> -->
+        <!-- Weitere Jahre hier hinzufügen, z. B. <option value="2025">2025</option> -->
     </select>
     <table id="dataTable" class="display"></table>
     <script>
-        let table; // Globale Variable fÃ¼r die DataTable
+        let table; // Globale Variable für die DataTable
 
-        // Initiale Tabelle laden (z. B. 2023)
+        // Initiale Tabelle laden (z. B. 2018)
         $(document).ready(function() {
             table = $('#dataTable').DataTable({
-                ajax: 'Indie_2018.csv', // Start mit 2018
                 columns: [
-                    { title: 'Publisher' },
-                    { title: 'Title' },
-                    { title: 'Jan' },
-                    { title: 'Feb' },
-                    { title: 'Mar' },
-                    { title: 'Apr' },
-                    { title: 'May' },
-                    { title: 'June' },
-                    { title: 'July' },
-                    { title: 'Aug' },
-                    { title: 'Sep' },
-                    { title: 'Oct' },
-                    { title: 'Nov' },
-                    { title: 'Dec' },
-                    { title: 'Comment' }
+                    { title: 'Publisher', data: 'Publisher' },
+                    { title: 'Title', data: 'Title' },
+                    { title: 'Jan', data: 'Jan' },
+                    { title: 'Feb', data: 'Feb' },
+                    { title: 'Mar', data: 'Mar' },
+                    { title: 'Apr', data: 'Apr' },
+                    { title: 'May', data: 'May' },
+                    { title: 'June', data: 'June' },
+                    { title: 'July', data: 'July' },
+                    { title: 'Aug', data: 'Aug' },
+                    { title: 'Sep', data: 'Sep' },
+                    { title: 'Oct', data: 'Oct' },
+                    { title: 'Nov', data: 'Nov' },
+                    { title: 'Dec', data: 'Dec' },
+                    { title: 'Comment', data: 'Comment' }
                 ]
             });
+            // Lade das Standardjahr (2018)
+            loadYear();
         });
 
         // Funktion zum Laden eines neuen Jahres
@@ -46,9 +48,26 @@
             const selectedYear = document.getElementById('yearSelect').value;
             const csvFile = `Indie_${selectedYear}.csv`; // Dynamischer Dateiname
 
-            // Tabelle leeren und neue Daten laden
-            table.clear().draw();
-            table.ajax.url(csvFile).load();
+            // CSV-Datei mit Papa Parse laden
+            Papa.parse(csvFile, {
+                download: true,
+                header: true, // Erste Zeile als Spaltenüberschriften verwenden
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.errors.length) {
+                        console.error('CSV Parsing Errors:', results.errors);
+                        alert('Fehler beim Parsen der CSV-Datei. Überprüfen Sie die Konsole für Details.');
+                        return;
+                    }
+                    // Tabelle leeren und neue Daten laden
+                    table.clear();
+                    table.rows.add(results.data).draw();
+                },
+                error: function(error) {
+                    console.error('Fehler beim Laden der CSV-Datei:', error);
+                    alert('Fehler beim Laden der CSV-Datei: ' + csvFile);
+                }
+            });
         }
     </script>
 </body>
