@@ -23,6 +23,12 @@
             table = $('#dataTable').DataTable({
                 pageLength: 100, // Default number of rows
                 lengthMenu: [ [100, 200, 500, 1000, -1], [100, 200, 500, 1000, "All"] ], // Row selector options
+                columnDefs: [
+                    { 
+                        targets: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], // Indices for Jan to Dec
+                        orderable: false // Disable sorting for these columns
+                    }
+                ],
                 columns: [
                     { title: 'Publisher', data: 'Publisher' },
                     { title: 'Title', data: 'Title' },
