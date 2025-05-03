@@ -8,19 +8,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
-    <label for="yearSelect">Jahr auswählen:</label>
+    <label for="yearSelect">Jahr auswÃ¤hlen:</label>
     <select id="yearSelect" onchange="loadYear()">
         <option value="2018">2018</option>
         <option value="2019">2019</option>
-        <!-- Weitere Jahre hier hinzufügen, z. B. <option value="2025">2025</option> -->
+        <!-- Weitere Jahre hier hinzufÃ¼gen, z. B. <option value="2025">2025</option> -->
     </select>
     <table id="dataTable" class="display"></table>
     <script>
-        let table; // Globale Variable für die DataTable
+        let table; // Globale Variable fÃ¼r die DataTable
 
         // Initiale Tabelle laden (z. B. 2018)
         $(document).ready(function() {
             table = $('#dataTable').DataTable({
+                pageLength: 100, // Default number of rows
+                lengthMenu: [ [100, 200, 500, 1000, -1], [100, 200, 500, 1000, "All"] ], // Row selector options
                 columns: [
                     { title: 'Publisher', data: 'Publisher' },
                     { title: 'Title', data: 'Title' },
@@ -51,12 +53,12 @@
             // CSV-Datei mit Papa Parse laden
             Papa.parse(csvFile, {
                 download: true,
-                header: true, // Erste Zeile als Spaltenüberschriften verwenden
+                header: true, // Erste Zeile als SpaltenÃ¼berschriften verwenden
                 skipEmptyLines: true,
                 complete: function(results) {
                     if (results.errors.length) {
                         console.error('CSV Parsing Errors:', results.errors);
-                        alert('Fehler beim Parsen der CSV-Datei. Überprüfen Sie die Konsole für Details.');
+                        alert('Fehler beim Parsen der CSV-Datei. ÃœberprÃ¼fen Sie die Konsole fÃ¼r Details.');
                         return;
                     }
                     // Tabelle leeren und neue Daten laden
